@@ -1,10 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1> Works log</h1>
+<h1>Список работ</h1>
+{% if current_user.is_authenticated %}
+<div>
+    <a href="create" class="btn btn-secondary">Добавить работу</a>
+</div>
+{% endif %}
 {% for job in jobs %}
 <div>
-    <h2>Action # {{loop.index}}</h2>
+    <h2>Задача № {{loop.index}}</h2>
     <table class="table">
         <thead>
         <tr>

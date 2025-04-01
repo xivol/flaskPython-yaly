@@ -87,7 +87,7 @@ def jobs_create():
     msg = ""
     if form.validate_on_submit():
         job = Jobs()
-        job.job = form.job_name.data
+        job.job = form.name.data
         job.team_leader = form.team_leader.data
         job.work_size = form.work_size.data
         job.collaborators = form.collaborators.data
@@ -96,6 +96,7 @@ def jobs_create():
         sess.add(job)
         sess.commit()
         msg = "Успешно!"
+        return redirect("/jobs_list")
     return render_template("jobs_create.html", title="Добавить работу",
                            message=msg,
                            form=form)

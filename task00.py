@@ -12,7 +12,6 @@ from api.jobs import blueprint as jobs_bp
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "my secret key"
 app.register_blueprint(jobs_bp)
-print(app.__dict__)
 
 login_manager = LoginManager()
 login_manager.init_app(app)

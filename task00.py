@@ -1,5 +1,6 @@
 from flask import *
 from flask_login import LoginManager, login_required, login_user, current_user, logout_user
+from flask_restful import Api
 from data.db_session import create_session, global_init
 from data.users import User
 from data.jobs import Jobs
@@ -7,7 +8,7 @@ from forms.users import LoginForm, RegisterForm
 from forms.jobs import JobsCreateForm
 
 from api.jobs import blueprint as jobs_bp
-
+from api.users import UserResource, UserListResource
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "my secret key"
@@ -16,6 +17,9 @@ app.register_blueprint(jobs_bp)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+api = Api(app)
+api.add_resource(UserResource, '/api/v2/users/<int:user_id>')
+api.add_resource(UserListResource, '/api/v2/users')
 
 @login_manager.user_loader
 def user(uid):

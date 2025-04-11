@@ -3,7 +3,7 @@ import werkzeug
 from flask import Flask, request, jsonify
 import logging
 
-from werkzeug.exceptions import InternalServerError
+from werkzeug.exceptions import InternalServerError, BadRequest, abort
 
 app = Flask(__name__)
 
@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO)
 
 sessionStorage = {}
 
-
+@app.errorhandler(BadRequest)
 @app.errorhandler(InternalServerError)
 def error(e):
     response = {
@@ -29,6 +29,9 @@ def error(e):
 # Внутри функции доступен request.json - это JSON, который отправила нам Алиса в запросе POST
 def main():
     logging.info('Request: %r', request.json)
+
+    if 'session' not in request.json:
+        return abort(400)
 
     # Начинаем формировать ответ, согласно документации
     # мы собираем словарь, который потом при помощи библиотеки json преобразуем в JSON и отдадим Алисе

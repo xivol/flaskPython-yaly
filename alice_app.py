@@ -8,9 +8,10 @@ from werkzeug.exceptions import InternalServerError, BadRequest, abort
 app = Flask(__name__)
 
 # Устанавливаем уровень логирования
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 sessionStorage = {}
+
 
 @app.errorhandler(BadRequest)
 @app.errorhandler(InternalServerError)
@@ -76,8 +77,19 @@ def handle_dialog(req, res):
     ]:
         # Пользователь согласился, прощаемся.
         res['response']['text'] = 'Слона можно найти на Яндекс.Маркете!'
+        res['response']['card'] = {"type": "BigImage",
+                                   "image_id": "1656841/9b44da685ffd3356e57e",
+                                   "title": "Заголовок для изображения",
+                                   "description": "Описание изображения.",
+                                   "button": {
+                                       "text": "Надпись на кнопке",
+                                       "url": "http://example.com/",
+                                       "payload": {}
+                                   }
+                                   }
         res['response']['end_session'] = True
         return
+
 
     # Если нет, то убеждаем его купить слона!
     res['response']['text'] = 'Все говорят "%s", а ты купи слона!' % (

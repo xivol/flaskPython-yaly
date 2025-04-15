@@ -9,6 +9,10 @@ from forms.jobs import JobsCreateForm
 
 from api.jobs import blueprint as jobs_bp
 from api.users import UserResource, UserListResource
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logging.getLogger("werkzeug").setLevel(logging.ERROR)
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "my secret key"
@@ -29,6 +33,12 @@ def user(uid):
 @app.route('/')
 @app.route('/jobs_list')
 def jobs_list():
+    logging.debug("Hello")
+    logging.debug("Hello")
+    logging.debug("Hello")
+    logging.debug("Hello")
+    logging.debug("Hello")
+
     sess = create_session()
     jobs = sess.query(Jobs).all()
     return render_template('jobs_list.html', title='Список работ',
@@ -111,4 +121,4 @@ def jobs_create():
 
 
 global_init("db/database.sqlite")
-app.run('localhost', 8080, debug=True)
+app.run('localhost', 8080)
